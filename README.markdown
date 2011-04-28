@@ -18,7 +18,7 @@ php /path/to/compile.phar [target]
 
 When `compile.phar` is invoked, it looks for a file named `Pharfile` in the `target` directory.
 If no `target` is given, the script looks in the current working directory for the `Pharfile`
-This file is written in a `php.ini` style syntax. Let's take a look at SimplePhar's `Pharfile`
+This file is written in a `php.ini` style syntax. Let's take a look at SimplePhar's `Pharfile`:
 
 ```ini
 dist_path    = "bin/compile.phar"
@@ -31,15 +31,20 @@ The `Pharfile` consists of some simple directives:
 <dl>
     <dt>dist_path</dt>
     <dd>Path where the generated PHAR file should be placed</dd>
+    
     <dt>file_paths</dt>
-    <dd>An *Array* of Paths relative to the `Pharfile`'s directory. All `.php` files in these
-    paths are added to the PHAR</dd>
+    <dd>An <code>Array</code> of Paths relative to the Pharfile's directory. All <code>.php</code> 
+    files in thesepaths are added to the PHAR</dd>
+    
     <dt>cli_stub</dt>
-    <dd>Path relative to the `Pharfile`'s directory to your Bootstrap file. Make sure that this
-    file is located within one of the `file_paths`.</dd>
+    <dd>Path relative to the Pharfile's directory to your Bootstrap file. Make sure that this
+    file is located within one of the <code>file_paths</code>.</dd>
+    
     <dt>license_file</dt>
     <dd>Path to an optional LICENSE file which should be also included in the PHAR</dd>
 </dl>
+
+That's it!
 
 ## License
 
