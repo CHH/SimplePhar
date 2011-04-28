@@ -34,7 +34,7 @@ The `Pharfile` consists of some simple directives:
     
     <dt>file_paths</dt>
     <dd>An <code>Array</code> of Paths relative to the Pharfile's directory. All <code>.php</code> 
-    files in thesepaths are added to the PHAR</dd>
+    files in these paths are added to the PHAR</dd>
     
     <dt>cli_stub</dt>
     <dd>Path relative to the Pharfile's directory to your Bootstrap file. Make sure that this
