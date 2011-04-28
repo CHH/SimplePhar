@@ -1,4 +1,3 @@
-dist_path = "compile.phar"
+dist_path    = "bin/compile.phar"
 file_paths[] = "src"
-cli_stub = "src/cli.php"
-web_stub = "src/cli.php"
+cli_stub     = "src/cli.php"

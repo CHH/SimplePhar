@@ -51,20 +51,10 @@ if (!$config) {
     die("Error reading Pharfile\r\n");
 }
 
-if (!empty($config["file_paths"])) {
-    foreach ($config["file_paths"] as &$path) {
-        $path = realpath(dirname($pharfile) . DIRECTORY_SEPARATOR . $path);
-    }
-}
-
-if (!empty($config["dist_path"])) {
-    $config["dist_path"] = realpath(dirname($pharfile)) 
-                         . DIRECTORY_SEPARATOR . $config["dist_path"];
-}
-
 if (empty($config["base_path"])) {
-    $config["base_path"] = realpath(dirname($pharfile)) . DIRECTORY_SEPARATOR;
+    $config["base_path"] = realpath(dirname($pharfile));
 }
+
 set_config($config, $compiler);
 
 $compiler->compile();

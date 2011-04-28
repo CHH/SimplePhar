@@ -1,5 +1,6 @@
 <?php
 
+
 namespace SimplePhar;
 
 use Phar,
@@ -9,12 +10,12 @@ class Compiler
 {
     protected $classMap = array();
 
+    protected $basePath;
     protected $filePaths;
     protected $cliStub;
     protected $webStub;
-    protected $licenseFile;
+    protected $licenseFile = "LICENSE";
     protected $classMapAutoloaderEnabled = false;
-    protected $basePath;
     protected $distPath;
     
     function __construct()
@@ -43,11 +44,14 @@ class Compiler
         return $this;
     }
     
+    /**
+     * Adds the path to the stack of file paths
+     *
+     * @param string $path
+     * @return Compiler
+     */
     function addPath($path)
     {
-        if (!is_dir($path)) {
-            throw new \InvalidArgumentException("$path is not a directory");
-        }
         $this->filePaths->push($path);
         return $this;
     }
@@ -64,27 +68,43 @@ class Compiler
         return $this;
     }
     
+    /**
+     * Sets the path to the license file
+     *
+     * @param  string $licenseFile
+     * @return Compiler
+     */
     function setLicenseFile($licenseFile)
     {
         $this->licenseFile = $licenseFile;
         return $this;
     }
     
-    function generateClassMapAutoloader($enable = true) 
+    /**
+     * If turned on generates a static autoloader by scanning the file paths for Classes
+     * and Interfaces
+     *
+     * @param  bool $enable
+     * @return Compiler
+     */
+    function setGenerateAutoloader($enable = true) 
     {
         $this->classMapAutoloaderEnabled = $enable;
         return $this;
     }
     
+    /**
+     * Start the compilation
+     *
+     * @param string $distPath Path to the file to generate
+     */
     function compile($distPath = null)
     {
-        $distPath = $distPath ?: $this->distPath;
+        $distPath = $this->basePath . DIRECTORY_SEPARATOR . ($distPath ?: $this->distPath);
         
         if (!is_dir(dirname($distPath))) {
-            @mkdir(dirname($distPath), true);
+            @mkdir(dirname($distPath));
         }
-        
-        $basePath = $this->basePath ?: dirname($distPath);
         
         $phar = new Phar($distPath, 0, "Foo");
         $phar->setSignatureAlgorithm(Phar::SHA1);
@@ -97,23 +117,25 @@ class Compiler
         }
         
         foreach ($files as $file) {
-            $this->addFile($phar, $file, $basePath);
+            $this->addFile($phar, $file, $this->basePath);
         }
         
-        if (file_exists($this->licenseFile)) {
-            $phar["LICENSE"] = file_get_contents($this->licenseFile);
+        $licenseFile = realpath($this->basePath . DIRECTORY_SEPARATOR . $this->licenseFile);
+        if ($licenseFile) {
+            $phar["LICENSE"] = file_get_contents($licenseFile);
         }
         
         if ($this->classMapAutoloaderEnabled) {
             $phar["_autoload.php"] = $this->getClassmapAutoloader();
         }
         
-        $phar["_cli_stub.php"] = $this->generateStub($this->cliStub);
+        $cliStub = $this->generateStub($this->cliStub);
+        $phar["_cli_stub.php"] = $cliStub;
         
         if ($this->webStub) {
             $phar["_web_stub.php"] = $this->generateStub($this->webStub);
         } else {
-            $phar["_web_stub.php"] = $this->generateStub($this->cliStub);
+            $phar["_web_stub.php"] = $cliStub;
         }
         
         $phar->setDefaultStub("_cli_stub.php", "_web_stub.php");
@@ -162,7 +184,8 @@ TEMPLATE;
     function findFiles($dir)
     {
         $files = array();
-
+        
+        $dir = $this->basePath . DIRECTORY_SEPARATOR . $dir;
         $iterator = new \RecursiveDirectoryIterator($dir);
 
         foreach (new \RecursiveIteratorIterator($iterator) as $file) {
