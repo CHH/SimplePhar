@@ -17,7 +17,7 @@ php /path/to/compile.phar [target]
 ## Usage
 
 When `compile.phar` is invoked, it looks for a file named `Pharfile` in the `target` directory.
-If no `target` is given, the script looks in the current working directory for the `Pharfile`
+If no `target` is given, the script looks in the current working directory for the `Pharfile`. 
 This file is written in a `php.ini` style syntax. Let's take a look at SimplePhar's `Pharfile`:
 
 ```ini
