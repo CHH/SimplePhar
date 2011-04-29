@@ -1,11 +1,21 @@
 <?php
-
+/**
+ * A simple Phar Compiler
+ *
+ * @author Christoph Hochstrasser <christoph.hochstrasser@gmail.com>
+ * @copyright (c) 2011 Christoph Hochstrasser
+ * @license MIT License
+ * @package SimplePhar
+ */
 
 namespace SimplePhar;
 
 use Phar,
     SplStack;
 
+/**
+ * @package SimplePhar
+ */
 class Compiler
 {
     protected $classMap = array();
