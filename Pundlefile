@@ -1,0 +1,18 @@
+description: 'Spark2 Web Framework Dependencies'
+
+dependencies:
+    -
+        name: PHP
+        type: php
+        version: '~5.3.0'
+    -
+        name: 'Symfony Class Loader'
+        type: git
+        repository: 'git://github.com/symfony/ClassLoader.git'
+        target: 'vendor/Symfony/Component/ClassLoader'
+    -
+        name: 'Symfony Finder'
+        type: git
+        repository: 'git://github.com/symfony/Finder.git'
+        target: 'vendor/Symfony/Component/Finder'
+

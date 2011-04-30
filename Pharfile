@@ -1,3 +1,4 @@
 dist_path    = "bin/compile.phar"
 file_paths[] = "src"
+file_paths[] = "vendor"
 cli_stub     = "src/cli.php"

@@ -1,15 +1,16 @@
 <?php
 namespace SimplePhar;
 
-spl_autoload_register(function($class) {
-    $file = __DIR__ . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $class) . ".php";
-    
-    if (file_exists($file)) {
-        require_once $file;
-        return $class;
-    }
-    return false;
-});
+require_once __DIR__ . "/../vendor/Symfony/Component/ClassLoader/UniversalClassLoader.php";
+
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
+$classLoader = new UniversalClassLoader;
+$classLoader->registerNamespaces(array(
+    "SimplePhar" => __DIR__,
+    "Symfony"    => __DIR__ . "/../vendor"
+));
+$classLoader->register();
 
 function is_absolute($path) 
 {
