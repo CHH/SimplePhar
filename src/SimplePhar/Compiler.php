@@ -219,7 +219,8 @@ TEMPLATE;
         $content  = trim(file_get_contents($file));
 
         if (".php" == substr($file, -4, 4)) {
-            $content = $this->stripComments($content);
+            // Disable, this fuck up code which relies on Docblock Annotations
+            //$content = $this->stripComments($content);
             $class   = $this->findClass($content);
 
             if ($class) {
