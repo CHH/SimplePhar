@@ -44,7 +44,8 @@ The `Pharfile` consists of some simple directives:
     <dd>Path to an optional LICENSE file which should be also included in the PHAR</dd>
 </dl>
 
-That's it!
+That's it! Now simply point `php compile.phar` at your Project's directory and the PHAR File will appear in
+the directory you specified as `dist_path`.
 
 ## License
 
